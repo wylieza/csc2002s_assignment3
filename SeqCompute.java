@@ -84,8 +84,19 @@ public class SeqCompute{
         }else if(mag_wind > 0.2){
             return 1;
         }
-        System.out.println(mag_wind);
         return 2;
+    }
+
+    public Vector Average(){
+        Vector sum = new Vector();
+        int[] ind = {0,0,0};
+        float dim = (float)data.dim();
+        for (int i = 0; i < dim; i++){
+            data.locate(i, ind);
+            sum.x += data.advection[ind[0]][ind[1]][ind[2]].x;
+            sum.y += data.advection[ind[0]][ind[1]][ind[2]].y;
+        }
+        return new Vector(sum.x/dim,sum.x/dim);
     }
 
 }
