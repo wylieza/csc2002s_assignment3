@@ -10,7 +10,8 @@ CLASSES = \
 	Vector.java \
 	CloudData.java \
 	CloudDataApp.java \
-	SeqCompute.java
+	SeqCompute.java \
+	ParCompute.java
 
 default: classes
 

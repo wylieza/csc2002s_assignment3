@@ -24,4 +24,11 @@ public class Vector{
         return "Vector <" + x + "; " + y + ">";
     }
 
+    public void include(Vector other){
+        this.x += other.x;
+        this.y += other.y;
+        x = x/(float)2;
+        y = y/(float)2;
+    }
+
 }

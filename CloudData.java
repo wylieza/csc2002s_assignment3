@@ -13,6 +13,9 @@ public class CloudData {
 	int [][][] classification; // cloud type per grid point, evolving over time
 	int dimx, dimy, dimt; // data dimensions
 
+	public Vector sum_for_average = new Vector();
+	public int thread_counter = 1;
+
 	public CloudData(String fileName){
 		this.readData(fileName);
 	}
