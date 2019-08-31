@@ -1,3 +1,5 @@
+import java.lang.Math; 
+
 public class SeqCompute{
     CloudData data;
 
@@ -71,6 +73,19 @@ public class SeqCompute{
         }
 
         return new Vector(sum.x/(float)count, sum.y/(float)count);
+    }
+
+    public int Classify(int pos){
+        int[] ind = {0,0,0};
+        data.locate(pos, ind);
+        float mag_wind = LocalAverage(pos).len();
+        if (mag_wind < Math.abs(data.convection[ind[0]][ind[1]][ind[2]])){
+            return 0;
+        }else if(mag_wind > 0.2){
+            return 1;
+        }
+        System.out.println(mag_wind);
+        return 2;
     }
 
 }

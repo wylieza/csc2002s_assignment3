@@ -11,7 +11,7 @@ public class CloudDataApp{
             //data.locate(i,ind);
             //System.out.println(ind[0] + " " + ind[1] + " " + ind[2]);
             vec = sequential.LocalAverage(i);
-            System.out.println("x: " + vec.x + "y: " + vec.y);
+            System.out.println("x: " + vec.x + " y: " + vec.y + " Classify -> " + sequential.Classify(i));
         }
         
 
