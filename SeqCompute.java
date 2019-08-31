@@ -96,7 +96,7 @@ public class SeqCompute{
             sum.x += data.advection[ind[0]][ind[1]][ind[2]].x;
             sum.y += data.advection[ind[0]][ind[1]][ind[2]].y;
         }
-        return new Vector(sum.x/dim,sum.x/dim);
+        return new Vector(sum.x/dim,sum.y/dim);
     }
 
 }
