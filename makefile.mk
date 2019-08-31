@@ -9,7 +9,8 @@ COMP = javac
 CLASSES = \
 	Vector.java \
 	CloudData.java \
-	CloudDataApp.java
+	CloudDataApp.java \
+	SeqCompute.java
 
 default: classes
 
