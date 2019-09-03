@@ -15,26 +15,20 @@ public class ParCompute extends RecursiveTask<Vector>{
         this.data = data;
         this.upper = upper;
         this.lower = lower;
-        System.out.println("upper: " + upper + " lower: " + lower);
     }
 
     public Vector compute(){
         int mid = (upper - lower)/2;
         if(mid > SEQ_CUTOFF){
-            System.out.println("need to split - mid: " + mid);
             data.thread_counter ++;
             ParCompute left = new ParCompute(data, lower, lower + mid);
-            ParCompute right = new ParCompute(data, lower + mid, upper);
             left.fork();
-            //lower = mid;
-            System.out.println("Split occured");
-            //average = (this.compute());
-            average = right.compute();
+            lower += mid;
+            average = this.compute();
             average.include(left.join());
 
             return average;            
         }else{
-            System.out.println("Base Case Reached");
             int[] ind = new int[3];
             Vector sum = new Vector();
             SeqCompute sequential = new SeqCompute(data);
