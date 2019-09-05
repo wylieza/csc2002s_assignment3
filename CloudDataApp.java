@@ -131,16 +131,34 @@ public class CloudDataApp{
     }
 
     public static double[] par_exec(String input_file, String output_file){
-         //PARALLEL EXECUTION
-         System.out.println("Parallel Execution BEGIN");
-         data = new CloudData(input_file);
-         System.out.println("File Loaded");
-         ave = new Vector();
- 
-         ParCompute parallel = new ParCompute(data, 0, data.dim());
-         parallel.fork();       
-         
-         //data.writeData(output_file, parallel.join());
-         System.out.println("Parallel Execution finnished Sucessfully");
+          //PARALLEL EXECUTION
+        System.out.println("File Loading");
+        data = new CloudData("largesample_input.txt");
+        System.out.println("File Loaded");
+
+        System.out.println("Parallel Execution BEGIN");
+
+
+        for(int j = 0; j < runs; j++){
+            System.out.println("Test: " + j);
+            System.gc();
+            par_times[j][0] = System.currentTimeMillis();
+            ave = new Vector();
+
+            ParCompute parallel = new ParCompute(data, 0, data.dim());
+            parallel.fork();
+            ave.include(parallel.join());
+
+            par_times[j][1] = System.currentTimeMillis();
+        }       
+            
+        data.writeData("parallel_output.txt", ave);
+        System.out.println("Parallel Execution finnished Sucessfully");
+        
+        for (int i = 0; i < runs; i++){
+            System.out.println("Time " + i + ": " + (par_times[i][1]-par_times[i][0])+"");
+        }
+
+       
     }
 }
