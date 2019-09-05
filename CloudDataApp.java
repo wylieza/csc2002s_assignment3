@@ -64,25 +64,31 @@ public class CloudDataApp{
 
             double[][] seq_par_data = new double[numinputf][3];
             double[][] cutoffs_data = new double[numseq_cutoffs][2];
+            double[] result;
 
             int i;
-            System.out.println("\nSequential Testing Phase:\n");
-            for(i = 0; i < numinputf; i++){
-                double[] result = seq_exec(inputf[i], null);
+            System.out.println("\nSequential_Parallel Testing Phase:\n");
+            for(i = 0; i < numinputf && false; i++){
+                System.out.println("File Loading");
+                data = new CloudData(inputf[i]);
+                System.out.println("File Loaded");
+
+                result = seq_exec(null, null);
                 seq_par_data[i][0] = result[0];
                 seq_par_data[i][1] = result[1];
-            }
 
-            System.out.println("\nParallel Testing Phase:\n");
-            for(i = 0; i < numinputf; i++){
-                double[] result = par_exec(inputf[i], seq_cutoffs[seq_cutoff_index], null);
+                result = par_exec(null, seq_cutoffs[seq_cutoff_index], null);
                 seq_par_data[i][2] = result[1];
             }
-            writeFile(seq_par_data, "seq_par_" + arch + ".txt");
+
+            //writeFile(seq_par_data, "seq_par_" + arch + ".txt");
 
             System.out.println("\nSeq Cutoff Testing Phase:\n");
+            System.out.println("File Loading");
+            data = new CloudData(inputf[inputf_index]);
+            System.out.println("File Loaded");
             for(i = 0; i < numseq_cutoffs; i++){
-                double[] result = par_exec(inputf[inputf_index], seq_cutoffs[i], null);
+                result = par_exec(null, seq_cutoffs[i], null);
                 cutoffs_data[i][0] = seq_cutoffs[i];
                 cutoffs_data[i][1] = result[1];
             }
@@ -109,7 +115,7 @@ public class CloudDataApp{
             
             for(int i = 0; i < arrdata.length; i++){
                 if(arrdata[i].length > 2){
-                    printWriter.printf("%f; %f\n", arrdata[i][0], arrdata[i][1], arrdata[i][2]);
+                    printWriter.printf("%f; %f; %f\n", arrdata[i][0], arrdata[i][1], arrdata[i][2]);
                 }else{
                     printWriter.printf("%f; %f\n", arrdata[i][0], arrdata[i][1]);
                 }
@@ -125,9 +131,11 @@ public class CloudDataApp{
     }
 
     public static double[] seq_exec(String input_file, String fileName){ //Returns average run time & dim
-        System.out.println("File Loading");
-        data = new CloudData(input_file);
-        System.out.println("File Loaded");
+        if(input_file != null){
+            System.out.println("File Loading");
+            data = new CloudData(input_file);
+            System.out.println("File Loaded");
+        }
 
         sequential = new SeqCompute(data);
         ave = new Vector();
@@ -176,9 +184,11 @@ public class CloudDataApp{
     }
 
     public static double[] par_exec(String input_file, int seq_cutoff, String fileName){ //Returns average run time & dim
-        System.out.println("File Loading");
-        data = new CloudData(input_file);
-        System.out.println("File Loaded");
+        if(input_file != null){
+            System.out.println("File Loading");
+            data = new CloudData(input_file);
+            System.out.println("File Loaded");
+        }
 
         System.out.println("Parallel Execution BEGIN");
         int runs = 8; //Number of runs to do
