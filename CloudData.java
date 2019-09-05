@@ -84,8 +84,9 @@ public class CloudData {
 				 }
 				 printWriter.printf("\n");
 		     }
-				 
-			 printWriter.close();
+			
+			printWriter.close();
+			fileWriter.close(); 
 		 }
 		 catch (IOException e){
 			 System.out.println("Unable to open output file "+fileName);
