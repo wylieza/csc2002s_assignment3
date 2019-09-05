@@ -4,7 +4,7 @@ public class ParCompute extends RecursiveTask<Vector>{
     
     private static final long serialVersionUID = 1L; //Auto generated
 
-    public static final int SEQ_CUTOFF = 5000;
+    public static int SEQ_CUTOFF = 5000;
     CloudData data;
     int upper;
     int lower;

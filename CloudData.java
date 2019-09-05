@@ -50,13 +50,14 @@ public class CloudData {
 				for(int x = 0; x < dimx; x++)
 					for(int y = 0; y < dimy; y++){
 						advection[t][x][y] = new Vector();
-						advection[t][x][y].x = Float.parseFloat(sc.next());
-						advection[t][x][y].y = Float.parseFloat(sc.next());// sc.nextFloat();
-						convection[t][x][y] = Float.parseFloat(sc.next());// sc.nextFloat();
+						advection[t][x][y].x = Float.parseFloat(fix_file_read(sc.next()));
+						advection[t][x][y].y = Float.parseFloat(fix_file_read(sc.next()));// sc.nextFloat();
+						convection[t][x][y] = Float.parseFloat(fix_file_read(sc.next()));// sc.nextFloat();
 					}
 			
 			classification = new int[dimt][dimx][dimy];
-			sc.close(); 
+			sc.close();
+			System.gc(); 
 		} 
 		catch (IOException e){ 
 			System.out.println("Unable to open input file "+fileName);
@@ -66,6 +67,13 @@ public class CloudData {
 			System.out.println("Malformed input file "+fileName);
 			e.printStackTrace();
 		}
+	}
+
+	public String fix_file_read(String str){
+		if (str.contains(",")){
+			return str.replace(',', '.');
+		}
+		return str;
 	}
 	
 	// write classification output to file
@@ -87,6 +95,7 @@ public class CloudData {
 			
 			printWriter.close();
 			fileWriter.close(); 
+			System.gc();
 		 }
 		 catch (IOException e){
 			 System.out.println("Unable to open output file "+fileName);
