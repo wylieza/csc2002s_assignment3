@@ -44,7 +44,9 @@ public class CloudDataApp{
        
         try{ 
 			Scanner sc = new Scanner(new File(fileName), "UTF-8");
-			
+            
+            int run_seq_par = sc.nextInt();
+            int run_cutoff = sc.nextInt();
 			int numinputf = sc.nextInt();
             int numseq_cutoffs = sc.nextInt();
             int inputf_index = sc.nextInt();
@@ -67,22 +69,25 @@ public class CloudDataApp{
             double[] result;
 
             int i;
-            System.out.println("\nSequential_Parallel Testing Phase:\n");
-            for(i = 0; i < numinputf && false; i++){
-                System.out.println("File Loading");
-                data = new CloudData(inputf[i]);
-                System.out.println("File Loaded");
+            if(run_seq_par != 0){
+                System.out.println("\nSequential_Parallel Testing Phase:\n");
+                for(i = 0; i < numinputf; i++){
+                    System.out.println("File Loading");
+                    data = new CloudData(inputf[i]);
+                    System.out.println("File Loaded");
 
-                result = seq_exec(null, null);
-                seq_par_data[i][0] = result[0];
-                seq_par_data[i][1] = result[1];
+                    result = seq_exec(null, null);
+                    seq_par_data[i][0] = result[0];
+                    seq_par_data[i][1] = result[1];
 
-                result = par_exec(null, seq_cutoffs[seq_cutoff_index], null);
-                seq_par_data[i][2] = result[1];
-            }
+                    result = par_exec(null, seq_cutoffs[seq_cutoff_index], null);
+                    seq_par_data[i][2] = result[1];
+                }
 
-            //writeFile(seq_par_data, "seq_par_" + arch + ".txt");
+                writeFile(seq_par_data, "seq_par_" + arch + ".txt");
+        }
 
+        if(run_cutoff != 0){
             System.out.println("\nSeq Cutoff Testing Phase:\n");
             System.out.println("File Loading");
             data = new CloudData(inputf[inputf_index]);
@@ -93,7 +98,7 @@ public class CloudDataApp{
                 cutoffs_data[i][1] = result[1];
             }
             writeFile(cutoffs_data, "cutoffs_" + arch + ".txt");
-
+        }
 
             
 		} 
