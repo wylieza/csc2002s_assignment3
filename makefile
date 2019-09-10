@@ -1,24 +1,31 @@
-JFLAGS = -g
-COMP = javac
+BINDIR=./bin
+SRCDIR=./src
+DOCDIR=./doc
+
 
 .SUFFIXES: .java .class
 
-.java.class:
-	$(COMP) $(JFLAGS) $*.java
+${BINDIR}/%.class: ${SRCDIR}/%.java
+	javac $< -cp ${BINDIR} -d ${BINDIR} 
 
-CLASSES = \
-	Vector.java \
-	CloudData.java \
-	CloudDataApp.java \
-	SeqCompute.java \
-	ParCompute.java
+all: ${BINDIR}/CloudDataApp.class
 
-default: classes
+${BINDIR}/CloudDataApp.class: ${BINDIR}/CloudData.class ${BINDIR}/Vector.class ${BINDIR}/ParCompute.class ${BINDIR}/SeqCompute.class
 
-classes: $(CLASSES:.java=.class)
+${BINDIR}/CloudData.class: ${BINDIR}/Vector.class
 
-run:
-	java CloudDataApp
+${BINDIR}/ParCompute.class: ${BINDIR}/CloudData.class ${BINDIR}/SeqCompute.class
+
+${BINDIR}/SeqCompute.class: ${BINDIR}/CloudData.class
 
 clean:
-	$(RM) *.class
+	rm -f ${BINDIR}/*.class
+
+run:
+	@java -cp ./bin CloudDataApp ${args}
+
+docs:
+	javadoc  -classpath ${BINDIR} -d ${DOCDIR} ${SRCDIR}/*.java
+
+cleandocs:
+	rm -rf ${DOCDIR}/*
